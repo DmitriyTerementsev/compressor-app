@@ -74,6 +74,37 @@ https://app-img-compress-convert.vercel.app
 
 При необходимости в Vercel можно подключить свой домен.
 
+## Деплой через GitHub Actions
+
+В репозитории есть workflow `.github/workflows/deploy.yml`. Он запускается при push в `main` и вручную через `Actions -> Deploy to Vercel -> Run workflow`.
+
+Перед запуском нужно один раз создать проект в Vercel и добавить секреты в GitHub repository:
+
+`Settings -> Secrets and variables -> Actions -> New repository secret`
+
+Обязательные GitHub Secrets:
+
+```text
+VERCEL_TOKEN
+VERCEL_ORG_ID
+VERCEL_PROJECT_ID
+```
+
+Где взять значения:
+
+- `VERCEL_TOKEN`: Vercel -> Account Settings -> Tokens -> Create Token.
+- `VERCEL_ORG_ID` и `VERCEL_PROJECT_ID`: после локальной привязки проекта командой `vercel link` они лежат в `.vercel/project.json`. Этот файл не нужно коммитить.
+
+TinyPNG ключ лучше хранить в Vercel project settings:
+
+`Vercel Project -> Settings -> Environment Variables`
+
+```text
+TINIFY_API_KEY=your_tinypng_api_key_here
+```
+
+После успешного workflow Vercel выдаст production URL в логах шага `Deploy`.
+
 ## Безопасность
 
 Файл `.env` находится в `.gitignore` и не должен попадать в репозиторий. Для GitHub и Vercel используйте только `.env.example` как шаблон.
